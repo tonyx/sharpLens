@@ -2,8 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <IsTestProject>false</IsTestProject>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ReflectionHelper.fs" />
+    <Compile Include="Components/ObjectViewer.fs" />
+    <Compile Include="Components/ObjectCreator.fs" />
+    <Compile Include="Components/CommandExecutor.fs" />
+    <Compile Include="Components/ObjectBrowser.fs" />
     <Compile Include="Main.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
@@ -12,5 +20,19 @@
     <PackageReference Include="Bolero.Build" Version="0.*" />
     <PackageReference Include="Bolero.HotReload" Version="0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.*" />
+    <PackageReference Include="Sharpino" Version="4.7.5" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\sharpLens.Sample\sharpinoTemplate.fsproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <CoreCompileDependsOn>$(CoreCompileDependsOn);_EnsureProgramIsLast</CoreCompileDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_EnsureProgramIsLast" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Compile Remove="Startup.fs" />
+      <Compile Include="Startup.fs" />
+    </ItemGroup>
+  </Target>
 </Project>
