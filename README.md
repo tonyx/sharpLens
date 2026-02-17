@@ -12,6 +12,36 @@ The ultimate goal of this project is to create a **general event browser** capab
 
 This tool aims to provide deep insight and control over event-sourced systems, transcending simple CRUD operations to fully embrace the complexity of distributed, event-driven architectures.
 
+## Implemented Features
+
+### 1. Generic Object Browser
+*   **Functionality**: Displays a list of entities (starting with `Todo` objects) fetched from the backend.
+*   **Implementation**: Created a reusable `ObjectBrowser` component that renders objects in a table format using reflection to display properties.
+
+### 2. Dynamic Command Executor
+*   **Functionality**: Allows users to execute domain commands (e.g., `Activate`, `Complete`, `Comment`) on any selected object.
+*   **Implementation**:
+    *   Built a `CommandExecutor` component that inspects the command union type (via `ReflectionHelper`) to dynamically generate forms for command parameters.
+    *   Implemented handling for complex inputs like `DateTime` and tuples (e.g., for `Comment`).
+    *   Added error handling to display feedback if a command fails (e.g., domain validation errors).
+
+### 3. Event History & Inspection
+*   **Functionality**: View the full history of events that have occurred for a specific entity.
+*   **Implementation**:
+    *   Added an "Event Browser" view that fetches and displays the **Initial Snapshot** (the state at creation) followed by all subsequent events (e.g., `Added`, `Started`, `Commented`).
+    *   Integrated this view directly into the main Todo page for easy access alongside the command interface.
+
+### 4. Object Creator
+*   **Functionality**: A UI to create new entities (Todos) by invoking their `New` constructor.
+*   **Implementation**:
+    *   Developed an `ObjectCreator` component that reflects on the `New` static member to build a creation form.
+    *   Refactored this into a stateful `Bolero.Component` to ensure data binding works correctly during user interaction (fixing the empty text bug).
+
+### 5. Infrastructure & Polish
+*   **Git Configuration**: Fixed the submodule issue with `sharpLens.Sample` so it is correctly tracked in the main repository.
+*   **Navigation**: Cleaned up the main menu to focus on the core functionality.
+*   **Documentation**: Created a Project `README.md` with setup instructions for Docker/Postgres and running the application.
+
 ## Implementation Details
 
 This project is based on the **Bolero** template.
